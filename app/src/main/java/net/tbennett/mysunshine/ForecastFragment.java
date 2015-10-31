@@ -34,6 +34,8 @@ import java.util.Arrays;
  */
 public class ForecastFragment extends Fragment {
 
+    public ArrayAdapter<String> forecastAdapter;
+
     public ForecastFragment() {
     }
 
@@ -53,12 +55,12 @@ public class ForecastFragment extends Fragment {
         };
         ArrayList<String> weather = new ArrayList<String>(Arrays.asList(forecastArray));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weather);
+        forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weather);
 
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ListView view = (ListView) rootView.findViewById(R.id.listview_forecast);
-        view.setAdapter(adapter);
+        view.setAdapter(forecastAdapter);
 
         return rootView;
     }
@@ -279,6 +281,14 @@ public class ForecastFragment extends Fragment {
             }
             return resultStrs;
 
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            forecastAdapter.clear();
+            ArrayList<String> weather = new ArrayList<String>(Arrays.asList(strings));
+            forecastAdapter.addAll(weather);
+            super.onPostExecute(strings);
         }
     }
 }
