@@ -148,7 +148,6 @@ public class ForecastFragment extends Fragment {
                     return null;
                 }
                 String weatherJson = buffer.toString();
-                Log.v(LOG_TAG, weatherJson);
 
                 String[] weatherData = new String[0];
                 try {
@@ -158,10 +157,6 @@ public class ForecastFragment extends Fragment {
                     // If the code didn't successfully get the weather data, there's no point in attempting
                     // to parse it.
                     return null;
-                }
-
-                for (String s : weatherData) {
-                    Log.v(LOG_TAG, "Forecast entry: " + s);
                 }
 
                 return weatherData;
@@ -276,18 +271,22 @@ public class ForecastFragment extends Fragment {
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
 
-            for (String s : resultStrs) {
-                Log.v(LOG_TAG, "Forecast entry: " + s);
-            }
             return resultStrs;
 
         }
 
         @Override
         protected void onPostExecute(String[] strings) {
-            forecastAdapter.clear();
-            ArrayList<String> weather = new ArrayList<String>(Arrays.asList(strings));
-            forecastAdapter.addAll(weather);
+            //Don't just clear the users existing data if we didn't get a valid response
+            if(strings != null){
+                forecastAdapter.clear();
+                ArrayList<String> weather = new ArrayList<String>(Arrays.asList(strings));
+
+                for(String s : strings){
+                    forecastAdapter.add(s);
+                }
+
+            }
             super.onPostExecute(strings);
         }
     }
