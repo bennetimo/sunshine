@@ -1,5 +1,6 @@
 package net.tbennett.mysunshine;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -61,7 +62,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if(id == R.id.action_refresh){
             FetchWeatherTask task = new FetchWeatherTask();
-            task.execute();
+            task.execute("London");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -72,22 +73,43 @@ public class ForecastFragment extends Fragment {
         inflater.inflate(R.menu.forecast_fragment, menu);
     }
 
-    private class FetchWeatherTask extends AsyncTask<Void, Void, String> {
+    private class FetchWeatherTask extends AsyncTask<String, Void, String> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+        private final String OPENWEATHER_ROOT = "api.openweathermap.org";
+        private final String OPENWEATHER_PATH = "data/2.5/forecast";
+        private final String OPENWEATHER_TYPE = "daily";
+        private final String OPENWEATHER_MODE = "json";
+        private final String OPENWEATHER_UNITS = "metric";
+        private final String OPENWEATHER_DAYCOUNT = "7";
+        private final String OPENWEATHER_APPID = "bd82977b86bf27fb59a04b61b657fb6f";
+
 
         @Override
-        protected String doInBackground(Void... nothing) {
+        protected String doInBackground(String... postcodes) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
             try {
+
+                String locationQueries = postcodes[0];
+
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are available at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=sw11,London&mode=json&units=metric&cnt=7&appid=bd82977b86bf27fb59a04b61b657fb6f");
+                Uri.Builder uriBuilder = new Uri.Builder()
+                        .scheme("http")
+                        .authority(OPENWEATHER_ROOT)
+                        .appendEncodedPath(OPENWEATHER_PATH)
+                        .appendPath(OPENWEATHER_TYPE)
+                        .appendQueryParameter("q", locationQueries)
+                        .appendQueryParameter("mode", OPENWEATHER_MODE)
+                        .appendQueryParameter("units", OPENWEATHER_UNITS)
+                        .appendQueryParameter("cnt", OPENWEATHER_DAYCOUNT)
+                        .appendQueryParameter("appid", OPENWEATHER_APPID);
+                URL url = new URL(uriBuilder.build().toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
