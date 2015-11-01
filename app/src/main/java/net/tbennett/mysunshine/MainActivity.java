@@ -1,7 +1,10 @@
 package net.tbennett.mysunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,11 +49,37 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
+        switch(id){
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.action_view_location:
+                viewLocation();
+                return true;
+            default: return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    private String getPreferredLocation(){
+        //Read the current location preference
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String location = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        return location;
+    }
+
+    private void viewLocation(){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        //Check that the user has an app that can receive this intent
+        if(intent.resolveActivity(getPackageManager()) != null){
+            Uri uri = Uri.parse("geo:0,0?q=" + getPreferredLocation());
+            intent.setData(uri);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        } else {
+            Toast.makeText(this, "Hmm, you don't seem to have any apps installed that can handle maps, sorry!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

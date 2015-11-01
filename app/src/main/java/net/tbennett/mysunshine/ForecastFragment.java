@@ -78,20 +78,18 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_refresh){
-            updateWeather();
-            return true;
+        switch(id){
+            case R.id.action_refresh:
+                updateWeather();
+                return true;
+            default: return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void updateWeather(){
-        FetchWeatherTask task = new FetchWeatherTask();
-
-        //Read the current location preference
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-
+        FetchWeatherTask task = new FetchWeatherTask();
         task.execute(location);
     }
 
