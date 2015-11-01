@@ -4,4 +4,9 @@
     <string name="refresh">Refresh</string>
     <string name="title_activity_detail">Detailed Outlook</string>
     <string name="title_activity_settings">Settings</string>
+
+    <!--Preference Strings-->
+    <string name="pref_location_label">Location</string>
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_default" translatable="false">SW11,London</string>
 </resources>
