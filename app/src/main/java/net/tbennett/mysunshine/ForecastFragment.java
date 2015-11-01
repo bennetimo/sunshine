@@ -287,12 +287,27 @@ public class ForecastFragment extends Fragment {
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
 
-                highAndLow = formatHighLows(high, low);
+                highAndLow = formatHighLows(converted(high), converted(low));
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
 
             return resultStrs;
 
+        }
+
+        /**
+         * Take a metric measurement, and potentially convert it to Imperial based on the value of the preferences
+         */
+        private double converted(double temp) {
+            //Read the current location preference
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String units = sharedPref.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_default));
+            Log.d("weather", "units is " + units);
+            if(units.compareTo(getString(R.string.unit_metric)) == 0){
+                return temp;
+            } else {
+                return (temp * 9 /5.0) + 32;
+            }
         }
 
         @Override

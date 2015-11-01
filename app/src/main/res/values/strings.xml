@@ -9,4 +9,14 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">SW11,London</string>
+
+
+    <string name="unit_metric">metric</string>
+    <string name="unit_metric_label">Metric</string>
+    <string name="unit_imperial">imperial</string>
+    <string name="unit_imperial_label">Imperial</string>
+
+    <string name="pref_units_label">Temperature Units</string>
+    <string name="pref_units_key" translatable="false">units</string>
+    <string name="pref_units_default" translatable="false">@string/unit_metric</string>
 </resources>

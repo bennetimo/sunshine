@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_unit_array_human">
+        <item>@string/unit_metric_label</item>
+        <item>@string/unit_imperial_label</item>
+    </string-array>
+
+    <string-array name="pref_unit_array">
+        <item>@string/unit_metric</item>
+        <item>@string/unit_imperial</item>
+    </string-array>
+</resources>
