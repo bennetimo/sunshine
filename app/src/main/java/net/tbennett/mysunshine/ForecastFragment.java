@@ -1,5 +1,6 @@
 package net.tbennett.mysunshine;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -67,7 +68,10 @@ public class ForecastFragment extends Fragment {
         view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), forecastAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                String forecast = forecastAdapter.getItem(position);
+                //Create an Intent to launch the detail page
+                Intent detailIntent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(detailIntent);
             }
         });
 
