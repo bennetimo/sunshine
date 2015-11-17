@@ -108,7 +108,7 @@ public class ForecastFragment extends Fragment {
         private final String OPENWEATHER_MODE = "json";
         private final String OPENWEATHER_UNITS = "metric";
         private final String OPENWEATHER_DAYCOUNT = "7";
-        private final String OPENWEATHER_APPID = "bd82977b86bf27fb59a04b61b657fb6f";
+        private final String OPENWEATHER_APPID = BuildConfig.API_KEY;
 
 
         @Override
