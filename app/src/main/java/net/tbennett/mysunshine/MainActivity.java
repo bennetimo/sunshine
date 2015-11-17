@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -81,5 +82,41 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Hmm, you don't seem to have any apps installed that can handle maps, sorry!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("MySunshine", "pausing...");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MySunshine", "resuming...");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("MySunshine", "starting...");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("MySunshine", "stopping...");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("MySunshine", "destroying...");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        Log.d("MySunshine", "creating...");
     }
 }
