@@ -7,46 +7,56 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:padding="16dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_item_icon">
-    </ImageView>
-
     <LinearLayout android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:paddingLeft="16dp">
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_date_textview"
+            android:text="TODAY"
+            />
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_item_high_textview"
+            android:gravity="center_horizontal"
+            android:text="21"
             >
         </TextView>
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_forecast_textview">
+            android:id="@+id/list_item_low_textview"
+            android:gravity="center_horizontal"
+            android:text="5">
         </TextView>
     </LinearLayout>
 
     <LinearLayout android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="0dp"
+        android:gravity="center_horizontal"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            android:id="@+id/list_item_icon"
+            android:layout_weight="1">
+        </ImageView>
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_item_high_textview"
-            android:gravity="center_horizontal">
-        </TextView>
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/list_item_low_textview"
-            android:gravity="center_horizontal">
+            android:id="@+id/list_item_forecast_textview"
+            android:text="SUNNY">
         </TextView>
     </LinearLayout>
+
+
 
 </LinearLayout>
 
