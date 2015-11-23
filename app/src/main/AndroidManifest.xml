@@ -38,6 +38,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.tbennett.mysunshine.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".data.WeatherProvider"
+            android:authorities="net.tbennett.mysunshine" >
+        </provider>
+
     </application>
 
 </manifest>
