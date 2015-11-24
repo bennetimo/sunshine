@@ -18,6 +18,8 @@ public class ForecastAdapter extends CursorAdapter {
     private final int VIEW_TYPE_TODAY = 0;
     private final int VIEW_TYPE_FUTURE_DAY = 1;
 
+    private WeatherViewHolder viewHolder;
+
   public ForecastAdapter(Context context, Cursor c, int flags) {
     super(context, c, flags);
   }
@@ -37,7 +39,7 @@ public class ForecastAdapter extends CursorAdapter {
    */
   private String formatHighLows(double high, double low) {
     boolean isMetric = Utility.isMetric(mContext);
-    String highLowStr = Utility.formatTemperature(high, isMetric) + "/" + Utility.formatTemperature(low, isMetric);
+    String highLowStr = Utility.formatTemperature(mContext, high, isMetric) + "/" + Utility.formatTemperature(mContext, low, isMetric);
     return highLowStr;
   }
 
@@ -65,6 +67,13 @@ public class ForecastAdapter extends CursorAdapter {
       int layoutId = (viewType == VIEW_TYPE_TODAY) ? R.layout.list_item_forecast_today : R.layout.list_item_forecast;
       View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
 
+      viewHolder = new WeatherViewHolder();
+      viewHolder.date = (TextView) view.findViewById(R.id.list_item_date_textview);
+      viewHolder.maxTemp = (TextView) view.findViewById(R.id.list_item_high_textview);
+      viewHolder.minTemp = (TextView) view.findViewById(R.id.list_item_low_textview);
+      viewHolder.forecast = (TextView) view.findViewById(R.id.list_item_forecast_textview);
+      viewHolder.icon = (ImageView) view.findViewById(R.id.list_item_icon);
+
     return view;
   }
 
@@ -78,29 +87,32 @@ public class ForecastAdapter extends CursorAdapter {
 
       //Read image
       int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
-      ImageView iconView = (ImageView) view.findViewById(R.id.list_item_icon);
-      iconView.setImageResource(R.drawable.ic_launcher);
+      viewHolder.icon.setImageResource(R.drawable.ic_launcher);
 
       //Read date
       long dateInMillis = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-      TextView dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
-      dateView.setText(Utility.formatDate(dateInMillis));
+      viewHolder.date.setText(Utility.formatDate(dateInMillis));
 
       //Read description
       String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
-      TextView descView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
-      descView.setText(description);
+      viewHolder.forecast.setText(description);
 
       boolean isMetric = Utility.isMetric(context);
 
       //Red max
       double max = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-      TextView maxView = (TextView) view.findViewById(R.id.list_item_high_textview);
-      maxView.setText(Utility.formatTemperature(max, isMetric));
+      viewHolder.maxTemp.setText(Utility.formatTemperature(context, max, isMetric));
 
       //Red min
       double min = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-      TextView minView = (TextView) view.findViewById(R.id.list_item_low_textview);
-      minView.setText(Utility.formatTemperature(min, isMetric));
+      viewHolder.minTemp.setText(Utility.formatTemperature(context, min, isMetric));
   }
+
+    static class WeatherViewHolder {
+        TextView forecast;
+        TextView maxTemp;
+        TextView minTemp;
+        TextView date;
+        ImageView icon;
+    }
 }
