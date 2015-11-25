@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 
-def API_KEY = '"' + API_KEY_OPEN_WEATHER_MAP_API + '"' ?: '"Missing API Key. Make sure it is set in gradle properties as: API_KEY_OPEN_WEATHER_MAP_API"';
+if(!project.hasProperty('API_KEY_OPEN_WEATHER_MAP')){
+    //Stop the build, we need the API key
+    throw new GradleException("Missing API Key. Make sure it is set in gradle properties as: API_KEY_OPEN_WEATHER_MAP")
+}
+
+def API_KEY = '"' + project.properties['API_KEY_OPEN_WEATHER_MAP'] + '"'
 
 android {
     compileSdkVersion 23
