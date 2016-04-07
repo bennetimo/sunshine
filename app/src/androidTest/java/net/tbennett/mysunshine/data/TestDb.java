@@ -97,7 +97,42 @@ public class TestDb extends AndroidTestCase {
     }
 
     public void testLocationTable() {
-        insertLocation();
+        // First step: Get reference to writable database
+        SQLiteDatabase db = new WeatherDbHelper(
+                this.mContext).getWritableDatabase();
+
+
+        // Create ContentValues of what you want to insert
+        // (you can use the createWeatherValues TestUtilities function if you wish)
+        ContentValues locationValues = TestUtilities.createNorthPoleLocationValues();
+
+        // Insert ContentValues into database and get a row ID back
+        long locationRowId = db.insert(WeatherContract.LocationEntry.TABLE_NAME, null, locationValues);
+        assertFalse("Insert failed", locationRowId == -1);
+
+        // Query the database and receive a Cursor back
+        Cursor c = db.query(
+                WeatherContract.LocationEntry.TABLE_NAME,  // Table to Query
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null, // columns to group by
+                null, // columns to filter by row groups
+                null  // sort order
+        );
+
+        // Move the cursor to a valid database row
+        assertTrue("No records returned from location query", c.moveToFirst());
+
+        // Validate data in resulting Cursor with the original ContentValues
+        // (you can use the validateCurrentRecord function in TestUtilities to validate the
+        // query if you like)
+        TestUtilities.validateCurrentRecord("testInsertReadDb locationEntry failed to validate",
+                c, locationValues);
+
+        // Finally, close the cursor and database
+        c.close();
+        db.close();
     }
 
     public void testWeatherTable() {
@@ -129,7 +164,7 @@ public class TestDb extends AndroidTestCase {
         );
 
         // Move the cursor to a valid database row
-        assertTrue("No records freturned from location query", c.moveToFirst());
+        assertTrue("No records freturned from weather query", c.moveToFirst());
 
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
